@@ -44,9 +44,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\PlatformManager.cs" />
-     <Compile Include="Assets\Scripts\Runner.cs" />
-     <Compile Include="Assets\Scripts\SkylineManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\DecisionMatrixManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\EnemyManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\GameEventManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\PlatformManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\SkylineManager.cs" />
+     <Compile Include="Assets\Scripts\Objects\Actor.cs" />
+     <Compile Include="Assets\Scripts\Objects\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Objects\Runner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

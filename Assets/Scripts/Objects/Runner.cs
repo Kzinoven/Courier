@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Runner : MonoBehaviour {
-
+//Defines the player/runner class and its properties.
     public static float distanceTraveled;
     public float acceleration;
     public float maxVelocity;
@@ -10,11 +10,13 @@ public class Runner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //Handle basic jumping.  Will add action and input manager functions in future versions.
         if (touchingPlatform && Input.GetButtonDown("Jump"))
         {
             rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
             touchingPlatform = false;
         }
+
         // used by Managers
         distanceTraveled = transform.localPosition.x;
 
@@ -22,6 +24,8 @@ public class Runner : MonoBehaviour {
         if (Input.GetButtonDown("Fire1"))
             Time.timeScale = 0.2f;
         else Time.timeScale = 1.0f;
+
+        Time.fixedDeltaTime *= Time.timeScale;
 	}
 
     // FixedUpdate is called every time physics are calculated, usually multiple times per frame
@@ -39,6 +43,7 @@ public class Runner : MonoBehaviour {
             rigidbody.velocity = new Vector3(maxVelocity, rigidbody.velocity.y, rigidbody.velocity.x);
             // Currently overrides jump button controls but succeeds in limiting speed.  Just setting rigidbody.velocity.x is not allowed
         }
+        //Reverse max speed limit (unused but still good to have)
         else if (rigidbody.velocity.x < -maxVelocity)
         {
             rigidbody.velocity = new Vector3(-maxVelocity, rigidbody.velocity.y, rigidbody.velocity.x);
