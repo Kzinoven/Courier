@@ -8,6 +8,13 @@ public class Runner : MonoBehaviour {
     private bool touchingPlatform;
     public Vector3 jumpVelocity;
 	
+	private TimeDilation timeDilation;
+	
+	void Start()
+	{
+		timeDilation = (TimeDilation)gameObject.GetComponent(typeof(TimeDilation));
+	}
+	
 	// Update is called once per frame
 	void Update () {
         //Handle basic jumping.  Will add action and input manager functions in future versions.
@@ -20,12 +27,8 @@ public class Runner : MonoBehaviour {
         // used by Managers
         distanceTraveled = transform.localPosition.x;
 
-        // since movement is calculated by fixedUpdate, this doesn't work.  Will refactor in the future.
-        if (Input.GetButtonDown("Fire1"))
-            Time.timeScale = 0.2f;
-        else Time.timeScale = 1.0f;
-
-        Time.fixedDeltaTime *= Time.timeScale;
+        if (Input.GetButton("Fire1"))
+            timeDilation.dilate(0.2f, 1.0f);
 	}
 
     // FixedUpdate is called every time physics are calculated, usually multiple times per frame
