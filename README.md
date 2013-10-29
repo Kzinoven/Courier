@@ -6,7 +6,7 @@ DIGM Senior Project by TL;DR Games
 
 GitHub Repository and Documentation by Dustin Otwell
 
-Built in Unity3D 4 and Visual Studio 2012
+Built in Unity3D 4.2.0f4 and Visual Studio 2012
 Assets in Autodesk Maya and Pro Tools
 
 Target Platform: PC
