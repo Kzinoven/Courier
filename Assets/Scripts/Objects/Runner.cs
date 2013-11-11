@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public class Runner : MonoBehaviour {
+public class Runner : Actor {
 //Defines the player/runner class and its properties.
     public static float distanceTraveled;
     public float acceleration;
     public float maxVelocity;
-    private bool touchingPlatform;
     public Vector3 jumpVelocity;
 	
 	private TimeDilation timeDilation;
@@ -18,10 +17,10 @@ public class Runner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Handle basic jumping.  Will add action and input manager functions in future versions.
-        if (touchingPlatform && Input.GetButtonDown("Jump"))
+        if (grounded && Input.GetButtonDown("Jump"))
         {
             rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
-            touchingPlatform = false;
+            grounded = false;
         }
 
         // used by Managers
@@ -35,7 +34,7 @@ public class Runner : MonoBehaviour {
     void FixedUpdate ()
     {
         // Get up to speed
-        if (touchingPlatform)
+        if (grounded)
         {
             rigidbody.AddForce(acceleration, 0f, 0f, ForceMode.Acceleration);
         }
@@ -57,12 +56,12 @@ public class Runner : MonoBehaviour {
     //What happens when you hit something?
     void OnCollisionEnter()
     {
-        touchingPlatform = true;
+        grounded = true;
     }
 
     //What happens when you stop touching something?
     void OnCollisionExit ()
     {
-        touchingPlatform = false;
+        grounded = false;
     }
 }
