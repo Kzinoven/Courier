@@ -6,9 +6,6 @@ public class Actor : MonoBehaviour {
 	Actor.cs
 */
 	#region fields
-	private Vector3 actorVelocity;
-	public Vector3 termVelocity;
-	private Vector3 actorAcceleration;
 	protected bool grounded;
 	#endregion
 	

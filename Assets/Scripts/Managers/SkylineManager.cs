@@ -21,19 +21,32 @@ public class SkylineManager : MonoBehaviour
     #region functions
     void Start()
     {
+		GameEventManager.GameStart += GameStart;
+		GameEventManager.GameOver += GameOver;
         objectQueue = new Queue<Transform>(numberOfObjects);
         nextPosition = transform.localPosition;
         for (int i = 0; i < numberOfObjects; i++)
         {
             objectQueue.Enqueue((Transform)Instantiate(prefab));
         }
-        nextPosition = startPosition;
+
+    }
+	
+	private void GameStart()
+	{
+	    nextPosition = startPosition;
         for (int i = 0; i < numberOfObjects; i++)
         {
             Recycle();
         }
-    }
-
+		enabled = true;
+	}
+	
+	private void GameOver()
+	{
+		enabled = false;
+	}
+	
     void Update()
     {
         if (objectQueue.Peek().localPosition.x + recycleOffset < Runner.distanceTraveled)

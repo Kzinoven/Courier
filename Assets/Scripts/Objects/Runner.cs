@@ -6,26 +6,38 @@ public class Runner : Actor {
     public float acceleration;
     public float maxVelocity;
     public Vector3 jumpVelocity;
+	public float gameOverY;
+	private Vector3 startPosition;
 	
 	private TimeDilation timeDilation;
 	
 	void Start()
 	{
+		GameEventManager.GameStart += GameStart;
+		GameEventManager.GameOver += GameOver;
+		startPosition = transform.localPosition;
+		renderer.enabled = false;
+		rigidbody.isKinematic = true;
+		enabled = false;
 		timeDilation = (TimeDilation)gameObject.GetComponent(typeof(TimeDilation));
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
         //Handle basic jumping.  Will add action and input manager functions in future versions.
         if (grounded && Input.GetButtonDown("Jump"))
         {
-            rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
+            rigidbody.AddRelativeForce(jumpVelocity, ForceMode.VelocityChange);
             grounded = false;
         }
 
         // used by Managers
         distanceTraveled = transform.localPosition.x;
-
+		
+		if (transform.localPosition.y < gameOverY)
+				GameEventManager.TriggerGameOver();
+		
         if (Input.GetButton("Fire1"))
             timeDilation.dilate(0.2f, 1.0f);
 	}
@@ -37,31 +49,20 @@ public class Runner : Actor {
         if (grounded)
         {
             rigidbody.AddForce(acceleration, 0f, 0f, ForceMode.Acceleration);
-        }
-        
-        // Limit max speed here:
-        if (rigidbody.velocity.x > maxVelocity)
-        {
-            rigidbody.velocity = new Vector3(maxVelocity, rigidbody.velocity.y, rigidbody.velocity.x);
-            // Currently overrides jump button controls but succeeds in limiting speed.  Just setting rigidbody.velocity.x is not allowed
-        }
-        //Reverse max speed limit (unused but still good to have)
-        else if (rigidbody.velocity.x < -maxVelocity)
-        {
-            rigidbody.velocity = new Vector3(-maxVelocity, rigidbody.velocity.y, rigidbody.velocity.x);
-        }
-        
+        }  
     }
-
-    //What happens when you hit something?
-    void OnCollisionEnter()
-    {
-        grounded = true;
-    }
-
-    //What happens when you stop touching something?
-    void OnCollisionExit ()
-    {
-        grounded = false;
-    }
+	
+	private void GameStart () {
+		distanceTraveled = 0f;
+		transform.localPosition = startPosition;
+		renderer.enabled = true;
+		rigidbody.isKinematic = false;
+		enabled = true;
+	}
+	
+	private void GameOver () {
+		renderer.enabled = false;
+		rigidbody.isKinematic = true;
+		enabled = false;
+	}
 }
